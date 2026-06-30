@@ -1,40 +1,348 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Sentiment Research</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 60px auto;
-            padding: 20px;
-            line-height: 1.6;
-            color: #333;
-        }
-        h1 {
-            color: #1f6feb;
-        }
-        .box {
-            background: #f6f8fa;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #d0d7de;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Academic homepage of Zihao Gong, finance researcher.">
+  <title>Zihao Gong | Finance Researcher</title>
+  <style>
+    :root {
+      --ink: #20252b;
+      --muted: #5c6570;
+      --blue: #174f7c;
+      --rule: #d6dbe0;
+      --paper: #ffffff;
+      --wash: #f5f7f8;
+      --width: 980px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 17px/1.65 Georgia, "Times New Roman", serif;
+    }
+    a { color: var(--blue); text-underline-offset: 3px; }
+    a:hover { color: #0a2f4c; }
+    .wrap { width: min(calc(100% - 40px), var(--width)); margin: auto; }
+    .skip {
+      position: absolute; top: -50px; left: 12px;
+      padding: 8px 12px; background: white; z-index: 20;
+    }
+    .skip:focus { top: 10px; }
+    header {
+      padding: 42px 0 34px;
+      border-top: 7px solid var(--blue);
+      border-bottom: 1px solid var(--rule);
+    }
+    .identity {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 34px;
+      align-items: start;
+    }
+    .portrait {
+      display: block;
+      width: 150px;
+      height: 185px;
+      object-fit: cover;
+      object-position: 50% 12%;
+      border: 1px solid var(--rule);
+    }
+    h1, h2, h3 { font-weight: normal; }
+    h1 {
+      margin: 0 0 5px;
+      color: #142f45;
+      font-size: 2.7rem;
+      line-height: 1.15;
+    }
+    .role { margin: 0 0 15px; color: var(--muted); font-size: 1.08rem; }
+    .summary { max-width: 700px; margin: 0 0 14px; }
+    .contact { margin: 0; font-size: .94rem; }
+    nav {
+      background: var(--wash);
+      border-bottom: 1px solid var(--rule);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    nav .wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    nav a {
+      padding: 12px 19px 11px 0;
+      margin-right: 19px;
+      color: #263746;
+      font-size: .85rem;
+      text-decoration: none;
+    }
+    nav a:hover { color: var(--blue); text-decoration: underline; }
+    main { padding: 40px 0 70px; }
+    section { margin-bottom: 46px; scroll-margin-top: 24px; }
+    h2 {
+      margin: 0 0 20px;
+      padding-bottom: 7px;
+      color: #173b58;
+      border-bottom: 1px solid #aebbc5;
+      font-size: 1.55rem;
+      line-height: 1.25;
+    }
+    h3 {
+      margin: 24px 0 8px;
+      color: #263f53;
+      font-size: 1.08rem;
+      font-style: italic;
+    }
+    p { margin: 0 0 15px; }
+    .interests {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 42px;
+      margin: 0;
+      padding-left: 22px;
+    }
+    .paper-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: papers;
+    }
+    .paper-list li {
+      position: relative;
+      padding: 0 0 18px 38px;
+      counter-increment: papers;
+    }
+    .paper-list li::before {
+      content: counter(papers) ".";
+      position: absolute;
+      left: 4px;
+      color: var(--muted);
+    }
+    .title { font-weight: bold; }
+    .meta { color: var(--muted); font-size: .94rem; }
+    .links { white-space: nowrap; font-size: .9rem; }
+    .status {
+      display: inline-block;
+      margin-left: 5px;
+      color: #7a3c16;
+      font-size: .83rem;
+      font-style: italic;
+    }
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 55px;
+    }
+    .entry { margin-bottom: 20px; }
+    .entry-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      margin-bottom: 2px;
+    }
+    .entry-head strong { color: #283d4e; }
+    .date { flex: none; color: var(--muted); font-size: .9rem; }
+    .entry p { margin: 0; color: #464e56; font-size: .96rem; }
+    .plain-list { margin: 0; padding-left: 22px; }
+    .plain-list li { margin-bottom: 12px; }
+    footer {
+      padding: 24px 0;
+      color: var(--muted);
+      background: var(--wash);
+      border-top: 1px solid var(--rule);
+      font: .8rem/1.5 Arial, Helvetica, sans-serif;
+    }
+    .footer-row { display: flex; justify-content: space-between; gap: 30px; }
+    @media (max-width: 680px) {
+      body { font-size: 16px; }
+      header { padding-top: 30px; }
+      .identity { grid-template-columns: 105px 1fr; gap: 20px; }
+      .portrait { width: 105px; height: 135px; }
+      h1 { font-size: 2rem; }
+      .role { font-size: .95rem; }
+      nav .wrap { overflow-x: auto; flex-wrap: nowrap; }
+      nav a { flex: none; }
+      .interests, .two-column { grid-template-columns: 1fr; }
+      .entry-head { display: block; }
+      .date { display: block; }
+    }
+    @media (max-width: 440px) {
+      .identity { grid-template-columns: 1fr; }
+      .portrait { width: 112px; height: 145px; }
+      .footer-row { display: block; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Market Sentiment Research Project</h1>
+  <a class="skip" href="#main">Skip to main content</a>
 
-    <div class="box">
-        <p>This website is created for an academic research project.</p>
-
-        <p>The project studies public market sentiment using publicly available social media posts.</p>
-
-        <p>No commercial services are provided. No private user information is collected.</p>
-
-        <p>Research data is used solely for statistical analysis, natural language processing, and machine learning model validation.</p>
+  <header>
+    <div class="wrap identity">
+      <img class="portrait" src="assets/zihao-gong.jpg" alt="Portrait of Zihao Gong">
+      <div>
+        <h1>Zihao Gong, PhD</h1>
+        <p class="role">Finance Researcher</p>
+        <p class="summary">My research focuses on financial risk management and financial econometrics, particularly tail risk, jump dynamics, volatility forecasting, dynamic hedging, systemic contagion, and structured applications of machine learning in financial markets.</p>
+        <p class="contact">
+          Email: <a href="mailto:gzh-tony@live.cn">gzh-tony@live.cn</a>
+          &nbsp;·&nbsp; CV:
+          <a href="cv/zihao-gong-cv-en.pdf">English</a> /
+          <a href="cv/zihao-gong-cv-cn.pdf" lang="zh-CN">中文</a>
+        </p>
+      </div>
     </div>
+  </header>
+
+  <nav aria-label="Primary navigation">
+    <div class="wrap">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#working-papers">Working Papers</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+    </div>
+  </nav>
+
+  <main class="wrap" id="main">
+    <section id="research">
+      <h2>Research Interests</h2>
+      <ul class="interests">
+        <li>Financial risk measurement and management</li>
+        <li>Tail risk and extreme events</li>
+        <li>Financial econometrics and time series</li>
+        <li>Volatility-surface forecasting</li>
+        <li>Dynamic and state-dependent hedging</li>
+        <li>Systemic risk and network contagion</li>
+        <li>Commodity and derivatives markets</li>
+        <li>Machine learning in finance</li>
+      </ul>
+    </section>
+
+    <section id="publications">
+      <h2>Publication</h2>
+      <ol class="paper-list">
+        <li>
+          <span class="title">A Convolutional-Based Heterogeneous Autoregressive Model for Implied Volatility Surface Forecasting.</span><br>
+          Zihao Gong, Wenli Huang, and Xinfeng Ruan.<br>
+          <span class="meta"><em>The Journal of Derivatives</em>, 2026, 33(3): 46–73.</span>
+          <span class="links">[<a href="papers/implied-volatility-surface-forecasting.pdf">paper</a>]</span>
+        </li>
+      </ol>
+    </section>
+
+    <section id="working-papers">
+      <h2>Working Papers</h2>
+      <ol class="paper-list">
+        <li>
+          <span class="title">Systemic Contagion in the Cryptocurrency Market.</span><br>
+          Zihao Gong, You Yu, Shuai Zhang, and Wenli Huang.
+          <span class="status">Submitted to International Review of Economics and Finance</span>
+          <span class="links">[<a href="papers/systemic-contagion-cryptocurrency.pdf">paper</a>]</span>
+        </li>
+        <li>
+          <span class="title">Jumping for CAViaR: Price Jump and Conditional Tail Risk.</span><br>
+          Zihao Gong, Jari Kappi, and Michael Chng.
+          <span class="status">Target journal: Journal of Futures Markets</span>
+          <span class="links">[<a href="papers/jumping-for-caviar.pdf">paper</a>]</span>
+        </li>
+        <li>
+          <span class="title">Error in Aggregating Futures Return.</span><br>
+          Michael Chng, Zihao Gong, and Jari Kappi.
+          <span class="status">Target journal: Critical Finance Review</span>
+          <span class="links">[<a href="papers/error-aggregating-futures-return.pdf">paper</a>]</span>
+        </li>
+        <li>
+          <span class="title">State-Dependent Hedging.</span><br>
+          Michael Chng, Zihao Gong, and Jari Kappi.
+          <span class="links">[<a href="papers/state-dependent-hedging.pdf">paper</a>]</span>
+        </li>
+      </ol>
+    </section>
+
+    <section id="projects">
+      <h2>Research Projects</h2>
+      <h3>Government-funded projects</h3>
+      <ul class="plain-list">
+        <li><strong>Corporate Dynamic Multi-layer Networks and Stock Market Stability: Impact and Transmission Mechanisms</strong>, National Natural Science Foundation of China, 2026–2029. Participant.</li>
+        <li><strong>Multi-Dimensional Collaborative Mechanism and Optimization Strategies of Sci-Tech Finance Policies</strong>, Key Project of the Provincial Soft Science Research Program, 2025–. Participant.</li>
+        <li><strong>Innovative Training Models for FinTech Graduate Students from an Interdisciplinary Integration Perspective</strong>, Provincial Graduate Education Reform Project, 2024–. Participant.</li>
+      </ul>
+      <h3>Policy research</h3>
+      <p>Co-authored a 2025 policy report on Federal Reserve independence, global financial repercussions, and China’s response. The report was adopted by a national-level government body.</p>
+    </section>
+
+    <section id="experience">
+      <h2>Academic and Research Experience</h2>
+      <div class="entry">
+        <div class="entry-head">
+          <strong>Zhejiang University of Finance &amp; Economics — Research Fellow</strong>
+          <span class="date">Dec 2023 – Mar 2026</span>
+        </div>
+        <p>Research in asset pricing, corporate finance, risk management, machine learning, and large language models; teaching support in factor investing; supervision of undergraduate and postgraduate theses.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head">
+          <strong>Xianda College, Shanghai International Studies University — Part-time Lecturer</strong>
+          <span class="date">Sep 2020 – Feb 2021</span>
+        </div>
+        <p>Taught Microeconomics in Chinese and Financial Markets in English; supervised undergraduate dissertations.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head">
+          <strong>Xi’an Jiaotong–Liverpool University — Teaching Assistant</strong>
+          <span class="date">Sep 2015 – Jun 2019</span>
+        </div>
+        <p>Supported courses in mathematical economics, business economics, corporate finance, securities markets, and advanced corporate finance.</p>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2>Education</h2>
+      <div class="entry">
+        <div class="entry-head">
+          <strong>PhD in Finance, University of Liverpool (China Campus)</strong>
+          <span class="date">2015–2022</span>
+        </div>
+        <p>Dissertation: <em>Risk Management in the Crude Oil Market</em>. Supervisors: Michael Chng, Jari Kappi, and Gareth Liu-Evans.</p>
+      </div>
+      <div class="entry">
+        <div class="entry-head">
+          <strong>MSc in Econometrics and Mathematical Economics, London School of Economics</strong>
+          <span class="date">2013–2014</span>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="entry-head">
+          <strong>BSc in Economics, University of Liverpool</strong>
+          <span class="date">2009–2013</span>
+        </div>
+        <p>First Class Honours.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Methods and Software</h2>
+      <div class="two-column">
+        <div>
+          <h3>Methods</h3>
+          <p>Time-series econometrics, tail-risk modeling, jump decomposition, quantile methods, network analysis, machine learning, and deep learning.</p>
+        </div>
+        <div>
+          <h3>Software and data</h3>
+          <p>Python, R, LaTeX; CSMAR, Wind, and WRDS. Languages: Chinese (native) and English (fluent).</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> Zihao Gong</span>
+      <span>Last updated June 2026</span>
+    </div>
+  </footer>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
